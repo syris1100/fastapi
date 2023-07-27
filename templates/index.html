@@ -4,39 +4,24 @@
     <title>Enter Name</title>
 </head>
 <body>
-    <form id="name-form" action="/items/" method="post">
+    <form id="name-form">
         <input type="text" name="name" id="name-input">
-        <button type="submit">Submit</button>
+        <button type="button" onclick="submitForm()">Submit</button>
     </form>
     <script>
-        document.getElementById("name-form").addEventListener("submit", function(event) {
-            event.preventDefault();
+        function submitForm() {
             const name = document.getElementById("name-input").value;
             if (name) {
-                // 如果有提供姓名，則提交表單
-                fetch("/items/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: `name=${encodeURIComponent(name)}`,
-                })
-                .then(response => response.text())
-                .then(html => {
-                    // 將result.html的內容顯示在當前頁面
-                    document.documentElement.innerHTML = html;
-                })
-                .catch(error => {
-                    alert("An error occurred while processing the request.");
-                    console.error(error);
-                });
+                // 如果有提供姓名，則將姓名加入URL並進行重定向
+                window.location.href = `/items/?name=${encodeURIComponent(name)}`;
             } else {
                 // 如果姓名為空，彈出提示
                 alert("Name field is required.");
             }
-        });
+        }
     </script>
 </body>
 </html>
+
 
 
